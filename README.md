@@ -1,3 +1,4 @@
+
 # Libor Market Models
 
 ## Introduction
@@ -16,26 +17,24 @@ This report is organized as follows. Section 2 work through a quick derivation o
 
 ### Model Set Up
 
-Assume that we have $m$ forward rates and under the risk neutral measure, each subject to a Geometrical Brownian Motion. $$dF_i = \mu_i F_i dt + \sigma F_i dW_i$$ The solution to this stochastic differential equation is $$ \ln F_i( T ) = \ln F_i(0 ) - \int_0^T \frac{\sigma_k(t)^2}{2} dt + \int_0^T\sigma_i(t) dW_i(t) $$ One thing to note is that $dW_i$ might be correlated, that is $$dW_i(t) dW_j(t) = \rho_{i,j} dt$$ By properly choosing $\sigma_i$ and $ \rho_{i,j}$, $F_i$ is well defined, with only one special attention that $u_i$ might not always be 0. Once numeraire asset is chosen, some forward rates might have a non-zero drift. The next subsection derives that drift terms for general forward rates.
+Assume that we have $m$ forward rates and under the risk neutral measure, each subject to a Geometrical Brownian Motion.$$dF_i = \mu_i F_i dt + \sigma F_i dW_i$$ The solution to this stochastic differential equation is$$ \ln F_i( T ) = \ln F_i(0 ) - \int_0^T \frac{\sigma_k(t)^2}{2} dt + \int_0^T\sigma_i(t) dW_i(t)$$ One thing to note is that$dW_i$ might be correlated, that is$$dW_i(t) dW_j(t) = \rho_{i,j} dt$$ By properly choosing $\sigma_i$ and $\rho_{i,j}$, $F_i$ is well defined, with only one special attention that $u_i$ might not always be 0. Once numeraire asset is chosen, some forward rates might have a non-zero drift. The next subsection derives that drift terms for general forward rates.
 
 ### Drift Terms
 
-Assume that we choose zero coupon bond maturing at $T_i$ as the numeraire asset, then the $i^{th}$ forward rate is a martingale. Further assume that $T_k \gt T_i $. Since forward rate agreement $F_kP(t,T_k)$ and zero coupon bond $P( t, T_k ) $ are tradable assets, it follows from financial theorem that the following 2 variables are martingales
+Assume that we choose zero coupon bond maturing at$T_i$ as the numeraire asset, then the$i^{th}$ forward rate is a martingale. Further assume that $T_k \gt T_i$. Since forward rate agreement $F_kP(t,T_k)$ and zero coupon bond$P( t, T_k )$ are tradable assets, it follows from financial theorem that the following 2 variables are martingales
 
-\begin{equation*}
-\begin{aligned}
-& Y_k 
-&& = \quad \frac{P(t,T_k) }{P( t, t_i )}
-&&& = \quad \frac{1}{ \prod_{j=i+1}^k (1 + F_j\tau_j ) } \\
-& Z_k
-&& = \quad \frac{F_kP(t,T_k) }{P( t, t_i )}
-&&& = \quad \frac{F_k}{ \prod_{j=i+1}^k (1 + F_j\tau_j ) } \\
-\end{aligned}
-\end{equation*}
+$$
+ Y_k 
+ = \quad \frac{P(t,T_k) }{P( t, t_i )}
+ = \quad \frac{1}{ \prod_{j=i+1}^k (1 + F_j\tau_j ) } \\
+ Z_k
+ = \quad \frac{F_kP(t,T_k) }{P( t, t_i )}
+ = \quad \frac{F_k}{ \prod_{j=i+1}^k (1 + F_j\tau_j ) } \\
+$$
 
-Given that $dF_k = \mu_k F_k dt + \sigma F_k dW_k$ and $Y_k$ is martingale, by product rule it must follow that $$dY_k = 0 dt - Y_k \sum_{j=i+1}^k {\frac{\tau_j}{1 + F_j\tau_j}\sigma_j F_j dW_j }$$ Then $dZ_k = d(F_k Y_k) = F_kdY_k + Y_k dF_k + dF_kdY_k$ would equal to $$ dZ_k = ( Y_k \mu_k F_k - Y_k \sum_{j=i+1}^{k}{ \frac{\tau_j}{1+F_j\tau_j} F_j \rho_{j,k} F_k F_j \sigma_k \sigma_j} ) dt + \cdots $$ Since $Z_k$ is a martingale, the drift term must equal to 0, so it must hold that $$ \mu_k = \sum_{j=i+1}^{k}{ \frac{\tau_j}{1+F_j\tau_j} F_j \rho_{j,k} F_j \sigma_k \sigma_j} $$
+Given that $dF_k = \mu_k F_k dt + \sigma F_k dW_k$ and $Y_k$ is martingale, by product rule it must follow that$$dY_k = 0 dt - Y_k \sum_{j=i+1}^k {\frac{\tau_j}{1 + F_j\tau_j}\sigma_j F_j dW_j }$$ Then $dZ_k = d(F_k Y_k) = F_kdY_k + Y_k dF_k + dF_kdY_k$ would equal to$$ dZ_k = ( Y_k \mu_k F_k - Y_k \sum_{j=i+1}^{k}{ \frac{\tau_j}{1+F_j\tau_j} F_j \rho_{j,k} F_k F_j \sigma_k \sigma_j} ) dt + \cdots$$ Since $Z_k$ is a martingale, the drift term must equal to 0, so it must hold that$$ \mu_k = \sum_{j=i+1}^{k}{ \frac{\tau_j}{1+F_j\tau_j} F_j \rho_{j,k} F_j \sigma_k \sigma_j}$$
 
-For $T_k \lt T_i $, similar analsis can be performed and the result is $$ \mu_k = -\sum_{j=i+1}^{k}{ \frac{\tau_j}{1+F_j\tau_j} F_j \rho_{j,k} F_j \sigma_k \sigma_j} $$
+For $T_k \lt T_i$, similar analsis can be performed and the result is$$ \mu_k = -\sum_{j=i+1}^{k}{ \frac{\tau_j}{1+F_j\tau_j} F_j \rho_{j,k} F_j \sigma_k \sigma_j}$$
 
 ## Implementing Libor Market Models
 
@@ -57,33 +56,29 @@ class volatility( metaclass = ABCMeta ):
 ```
 In this project, we implemented 3 volatility function: function 2, 6 and 7 that are introduced in the lecture notes. All the 3 functions represents some sort of 'time-homogeneity' but this is not required quality for future volatility function classes.
 
-`vol2`  is the volatility function class representing function 2. It has a volatility list inside itself. When `get` function is called and there are k alive forward rates, it would return the first k elements in the list. When `getI` is called, it would directly return the $i^{th}$ volatility without checking if the corresponding rate is still alive. The calibration is straight forward as introduced in the lecture notes:
+`vol2`  is the volatility function class representing function 2. It has a volatility list inside itself. When `get` function is called and there are k alive forward rates, it would return the first k elements in the list. When `getI` is called, it would directly return the$i^{th}$ volatility without checking if the corresponding rate is still alive. The calibration is straight forward as introduced in the lecture notes:
 
-\begin{equation*}
-\begin{aligned}
-& \sigma_{Balck,1}^2 T_1
-&& = \quad \eta_1^2 \tau_1 \\
-& \sigma_{Balck,2}^2 T_2
-&& = \quad \eta_2^2 \tau_1 + \eta_1^2 \tau_2\\
-& \sigma_{Balck,3}^2 T_3
-&& = \quad \eta_3^2 \tau_1 + \eta_2^2 \tau_2 + \eta_1^2 \tau_3\\
-\end{aligned}
-\end{equation*}
+$$
+ \sigma_{Balck,1}^2 T_1
+ = \quad \eta_1^2 \tau_1 \\
+ \sigma_{Balck,2}^2 T_2
+ = \quad \eta_2^2 \tau_1 + \eta_1^2 \tau_2\\
+ \sigma_{Balck,3}^2 T_3
+ = \quad \eta_3^2 \tau_1 + \eta_2^2 \tau_2 + \eta_1^2 \tau_3\\
+$$
 
-`vol6` is the volatility function class representing function 6. It has 4 parameters $a, b, c, d$ and instant volatility is calculated as $$ \sigma_{ins} = [ a( T_{i-1} - t ) + d ] e^{-b(T_{i-1} - t ) } + c $$ `get` and `getI` function would return the instant volatility. The calibration function minimizes the square difference of BS implied volatility and the integral of instant volatility functions $$ \min_{a,b,c,d} \sum_i \sigma_{Black,i}^2 - \frac{1}{T_i} \int_0^{T_i} \{ [ a( T_{i-1} - t ) + d ] e^{-b(T_{i-1} - t ) } + c \}^2dt$$
+`vol6` is the volatility function class representing function 6. It has 4 parameters$a, b, c, d$ and instant volatility is calculated as$$ \sigma_{ins} = [ a( T_{i-1} - t ) + d ] e^{-b(T_{i-1} - t ) } + c$$ `get` and `getI` function would return the instant volatility. The calibration function minimizes the square difference of BS implied volatility and the integral of instant volatility functions$$ \min_{a,b,c,d} \sum_i \sigma_{Black,i}^2 - \frac{1}{T_i} \int_0^{T_i} \{ [ a( T_{i-1} - t ) + d ] e^{-b(T_{i-1} - t ) } + c \}^2dt$$
 
 It is also restricted that $a > 0$ and $b>0$.
 
-`vol7` is the volatility function class representing function 7. Similar to `vol6`, it has 4 parameters. In addition, it has a list of $\phi$ to ensure calibrating to market data. When `get` and `getI` function are called, the instant volatility is returned $$\phi_i \{ [ a( T_{i-1} - t ) + d ] e^{-b(T_{i-1} - t ) } + c \} $$ We do recognize that there are several methods to calibrate this volatility function, since there are $n+4$ parameters to calibrate to $n$ market data. The implementation here is calibrating the $4$ parameters first like what we have done in `vol6`. Then use $\phi$ to make an exact fit.
+`vol7` is the volatility function class representing function 7. Similar to `vol6`, it has 4 parameters. In addition, it has a list of $\phi$ to ensure calibrating to market data. When `get` and `getI` function are called, the instant volatility is returned$$\phi_i \{ [ a( T_{i-1} - t ) + d ] e^{-b(T_{i-1} - t ) } + c \}$$ We do recognize that there are several methods to calibrate this volatility function, since there are $n+4$ parameters to calibrate to$n$ market data. The implementation here is calibrating the $4$ parameters first like what we have done in `vol6`. Then use $\phi$ to make an exact fit.
 
-\begin{equation*}
-\begin{aligned}
-& \min_{a,b,c,d} 
-&& \sum_i \sigma_{Black,i}^2 - \frac{1}{T_i} \int_0^{T_i} \{[ a( T_{i-1} - t ) + d ] e^{-b(T_{i-1} - t ) } + c \}^2 dt \\
-& \phi_i^2
-&& = \quad \frac{\sigma_{Black,i}^2 T_i} {\int_0^{T_i} \{[ a( T_{i-1} - t ) + d ] e^{-b(T_{i-1} - t ) } + c \}^2 dt } \\
-\end{aligned}
-\end{equation*}
+$$
+ \min_{a,b,c,d} 
+ \sum_i \sigma_{Black,i}^2 - \frac{1}{T_i} \int_0^{T_i} \{[ a( T_{i-1} - t ) + d ] e^{-b(T_{i-1} - t ) } + c \}^2 dt \\
+ \phi_i^2
+ = \quad \frac{\sigma_{Black,i}^2 T_i} {\int_0^{T_i} \{[ a( T_{i-1} - t ) + d ] e^{-b(T_{i-1} - t ) } + c \}^2 dt } \\
+$$
 
 ### Correlation Functions
 Together with volatility functions, correlation functions defined the characteristic of a Libor Market Model. Similar to volatility function, a correlation function should return a matrix upon request. The size of this square matrix is the same as number of alive forward rates. Also, there is an interface to calibrate to target correlation matrix. 
@@ -126,16 +121,14 @@ However, there is an implicit restrictions on correlation functions, time-invari
 In addition, although there is an interface to calibrate to target correlation matrix, we are not using it in this project. Originally, it is planned that first calibrating to volatility function with caplet implied volatility and the decide an optimal correlation matrix from swaption data. Then invoke the `calibrate` function in correlation function class to fit to this matrix. However, this is quite complicated in implementation and 2 step optimization would be both inefficient and inaccurate. Therefore, calibrating this way is useless if not detrimental. In this project, another calibration procedure is adopted. First, calibrate volatility function using caplet implied volatility. Second, optimize the parameters of a `parametricCorrelator` so that inferred swaption implied volatility matches market data as closely as possible. In this way, only one optimization is invoked and overall accuracy is ensured.
 
 The first 2 parametric correlation functions in the lecture note are implemented here, that is
-\begin{equation*}
-\begin{aligned}
-& \rho_{i,j} 
-&& = \quad e^{ -\beta | T_i - T_j | }
-&&& \beta \geq 0 \\
-& \rho_{i,j} 
-&& = \quad \rho_{\infty} + ( 1 - \rho_{\infty} )e^{ -\beta | T_i - T_j | }
-&&& \beta \geq 0 \\
-\end{aligned}
-\end{equation*}
+$$
+ \rho_{i,j} 
+ = \quad e^{ -\beta | T_i - T_j | }
+ \beta \geq 0 \\
+ \rho_{i,j} 
+ = \quad \rho_{\infty} + ( 1 - \rho_{\infty} )e^{ -\beta | T_i - T_j | }
+ \beta \geq 0 \\
+$$
 
 ### Simulation Method
 
@@ -145,7 +138,7 @@ This class can calculate drifts of forward rates. When a model's initial state, 
 
 On the other hand, a model should be calibrated to market data before put into use. Generally speaking, calibration method depends on the choice of correlation functions and thus a calibration function should be virtual. However, in this small project, we only implemented 2 correlation function which can be calibrated in the same way, so the function is implemented here. That is not saying that our implementation rejects extension. Indeed, this method can be accommodate to any parametric correlation functions.
 
-A little bit more word about calibration. This function takes 2 parameters, `capletBSVol` and `swaptionBSVol`. The former one is the Black-Scholes implied volatility for caplets and the length of this list should be the same as number of forward rates. The second one, however, is not that straight forward. Market data from Bloomberg is usually organized as a table, with rows are for each maturity and columns for the tenor. However, we need to reshape this matrix into a list before putting into calibration function. Every element in this list is organized as $(T_0, T_n, impv)$. Given $T_0$ and $T_n$, we can calculator inferred variance by utilizing Rebonato's approximation using the formula $$ \sigma_{infer}^2 = \sum_{i,j=1}^{n} \frac{ \omega_i \omega_j f_i(0) f_j(0)}{S_{T_0,T_n}^2(0)} \int_0^{T_n}\rho_{i,j}\sigma_i(t)\sigma_j(t)dt$$ The idea of calibration is to minimize the square error of difference between implied volatility and inferred swaption volatility. $$\min \sum_i ( \sigma_{black,i}^2 T_i - \sigma_{infer}^2) ^2$$
+A little bit more word about calibration. This function takes 2 parameters, `capletBSVol` and `swaptionBSVol`. The former one is the Black-Scholes implied volatility for caplets and the length of this list should be the same as number of forward rates. The second one, however, is not that straight forward. Market data from Bloomberg is usually organized as a table, with rows are for each maturity and columns for the tenor. However, we need to reshape this matrix into a list before putting into calibration function. Every element in this list is organized as $(T_0, T_n, impv)$. Given $T_0$ and $T_n$, we can calculator inferred variance by utilizing Rebonato's approximation using the formula$$ \sigma_{infer}^2 = \sum_{i,j=1}^{n} \frac{ \omega_i \omega_j f_i(0) f_j(0)}{S_{T_0,T_n}^2(0)} \int_0^{T_n}\rho_{i,j}\sigma_i(t)\sigma_j(t)dt$$ The idea of calibration is to minimize the square error of difference between implied volatility and inferred swaption volatility.$$\min \sum_i ( \sigma_{black,i}^2 T_i - \sigma_{infer}^2) ^2$$
 
 Taking all this into consideration, we came up with an interface looks like: 
 ``` python
@@ -180,33 +173,29 @@ class ShortJumper( LiborMarketModel ):
 The Euler Scheme simulation method is quite straight forward. While it has not reached the finish time, calculate the current drift, volatility and correlation matrix. Then generate a vector of random numbers $X \sim N( (\mu - \frac{1}{2}\sigma^2)dt, \Sigma dt )$. Then calculate new forward rates using $$f_{t+dt} \quad = \quad f_te^{X}$$
 
 The second one is predictor-corrector. During each simulation, a vector of random variables is first generated and new forward rates are calculated like short jumper. However, instead of moving forward, calculate a new drift based on new rate value. Then final result is generated setting drift to be the average of old drift and new drift and the same random vector.
-\begin{equation*}
-\begin{aligned}
-& \mu_{old}  
-&& = \quad \mu( f_t, t )  \\
-& \hat{ f_{t+dt} }
-&& = \quad f_{t} e^{\mu_{old} - \frac{1}{2}\sigma_{t}^2 dt + X } \\
-& \mu_{new}
-&& = \quad \mu( \hat{ f_{t+dt} }, t ) \\
-& \bar{ \mu }
-&& = \quad \frac{1}{2} ( \mu_{old} + \mu_{new } ) \\
-& f_{ t + dt } 
-&& = \quad f_{t} e^{\bar{\mu} - \frac{1}{2}\sigma_{t}^2 dt + X } \\
-\end{aligned}
-\end{equation*}
+$$
+ \mu_{old}  
+ = \quad \mu( f_t, t )  \\
+ \hat{ f_{t+dt} }
+ = \quad f_{t} e^{\mu_{old} - \frac{1}{2}\sigma_{t}^2 dt + X } \\
+ \mu_{new}
+ = \quad \mu( \hat{ f_{t+dt} }, t ) \\
+ \bar{ \mu }
+ = \quad \frac{1}{2} ( \mu_{old} + \mu_{new } ) \\
+ f_{ t + dt } 
+ = \quad f_{t} e^{\bar{\mu} - \frac{1}{2}\sigma_{t}^2 dt + X } \\
+$$
 
 The third type of simulator is iterative predictor-corrector. It has a similar set up and simulating method as predictor-corrector. However, instead of reproducing drift for every forward rate simultaneously, it does the job in a sequential manner. Starting from numeraire forward rate which has a zero drift, it calculates the new forward rate. Then it moves  on to calculate drift of forward rates whose drift depend solely on numeraire forward rates, taking the average of drift based on current forward rate and new forward rates. That is, a forward rate is only updated when all new value of its dependency is known.
 
-First, at time $t$, generate drift for all rates $$ \mu_{old} = \mu( f_t, t ) $$
-Second, let $i^{th}$ forward rate be the numeraire, the drift is always $0$, and future value is $$ f_{t+dt,i} = f_{t,i} e^{ -\frac{1}{2} \sigma_{t,i}^2 + \sigma_{t,i} Z } $$
+First, at time $t$, generate drift for all rates$$ \mu_{old} = \mu( f_t, t )$$
+Second, let $i^{th}$ forward rate be the numeraire, the drift is always $0$, and future value is$$ f_{t+dt,i} = f_{t,i} e^{ -\frac{1}{2} \sigma_{t,i}^2 + \sigma_{t,i} Z }$$
 Third, for $j = i-1, i-2 \cdots 1$ and then $j = i + 1, i+2, \cdots m$, sequentially, 
-\begin{equation*}
-\begin{aligned}
-& \mu_{new, j} 
-&&= \quad \mu( f_{t,i}, f_{t,i-1}, \cdots, f_{t, j + 1}, t ) \\
-& \bar{ \mu_{j } }
-&& = \quad \frac{1}{2} ( \mu_{old, j} + \mu_{new,j } ) \\
-& f_{ t + dt, j } 
-&& = \quad f_{t,j} e^{\bar{\mu_{j}} - \frac{1}{2}\sigma_{t}^2 dt + Z } \\
-\end{aligned}
-\end{equation*}
+$$
+ \mu_{new, j} 
+= \quad \mu( f_{t,i}, f_{t,i-1}, \cdots, f_{t, j + 1}, t ) \\
+ \bar{ \mu_{j } }
+ = \quad \frac{1}{2} ( \mu_{old, j} + \mu_{new,j } ) \\
+ f_{ t + dt, j } 
+ = \quad f_{t,j} e^{\bar{\mu_{j}} - \frac{1}{2}\sigma_{t}^2 dt + Z } \\
+$$
